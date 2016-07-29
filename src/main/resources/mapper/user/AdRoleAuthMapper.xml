@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landRoleAuth">
+	<!-- 增加一条新记录 -->
+	<insert id="createRoleAuth" parameterType="com.rongzhong.admin.model.user.AdAuthority">
+		INSERT INTO AD_ROLE_AUTH (ID,ROLE_ID,AUTH_ID) VALUES(#{id},#{roleId},#{authId})
+	</insert>
+	<!-- 通过角色ID删除与之关系的记录 -->
+	<delete id="deleteByRoleId" parameterType="java.lang.Integer">
+		DELETE FROM AD_ROLE_AUTH WHERE ROLE_ID=#{roleId}
+	</delete>
+	<!-- 删除与当前权限ID关联的记录 -->
+	<delete id="deleteByAuthId" parameterType="java.lang.Integer">
+		DELETE FROM AD_ROLE_AUTH WHERE AUTH_ID=#{authId}
+	</delete>
+	<!-- 删除与当前权限ID关联的记录 -->
+	<delete id="delete" parameterType="com.rongzhong.admin.model.user.AdAuthority">
+		DELETE FROM AD_ROLE_AUTH WHERE AUTH_ID=#{authId} AND ROLE_ID=#{roleId}
+	</delete>
+	<!-- 通过角色Id查询角色权限关联表中，是否有记录 -->
+	<select id="findRoleAuths" resultType="com.rongzhong.admin.model.user.AdAuthority">
+		SELECT ID,ROLE_ID AS roleId,AUTH_ID AS authId FROM AD_ROLE_AUTH
+	</select>
+	<select id="findUserMenus" resultType="com.rongzhong.admin.model.user.AdUserMenu">
+		SELECT distinct B.USER_ID AS userId,A.AUTH_ID AS menuId FROM AD_ROLE_AUTH A,AD_USER_ROLE B where A.ROLE_ID = B.ROLE_ID
+	</select>
+</mapper>

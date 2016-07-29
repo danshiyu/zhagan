@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landUser">
+<select id="selectAll" resultType="com.rongzhong.admin.model.user.AdUser">
+	SELECT ID AS id,LOGIN_NAME AS loginname,REAL_NAME AS realname,PASSWORD AS password,DEPART_ID AS departid,EMAIL AS email,CREATE_TIME AS createtime,
+	EDIT_TIME AS edittime,STATUS AS status,LOGIN_TIME AS logintime,LOGIN_IP AS loginip FROM AD_USER ORDER BY ID
+</select>
+<select id="findUserByPage" resultType="com.rongzhong.admin.model.user.AdUser">
+	SELECT ID AS id,LOGIN_NAME AS loginname,REAL_NAME AS realname,PASSWORD AS password,DEPART_ID AS departid,EMAIL AS email,CREATE_TIME AS createtime,
+ 	EDIT_TIME AS edittime,STATUS AS status,LOGIN_TIME AS logintime,LOGIN_IP AS loginip FROM AD_USER ORDER BY ID
+</select>
+<select id="findUserByPage_Count" resultType="java.lang.Integer">
+	SELECT count(*) FROM AD_USER 
+</select>
+<select id="queryUsersByCondition" parameterType="com.rongzhong.admin.model.user.AdUser" resultType="com.rongzhong.admin.model.user.AdUser">
+	SELECT ID AS id,LOGIN_NAME AS loginname,REAL_NAME AS realname,PASSWORD AS PASSWORD,DEPART_ID AS departid,EMAIL AS email,CREATE_TIME AS createtime,
+ 	EDIT_TIME AS edittime,STATUS AS status,LOGIN_TIME AS logintime,LOGIN_IP AS loginip FROM AD_USER WHERE 1=1
+	<if test="loginname != null  and loginname !=''">
+		AND LOGIN_NAME = #{loginname}  
+	</if>
+	<if test="realname != null and realname !=''">
+		AND REAL_NAME =#{realname} 
+	</if>
+</select>
+<select id="queryUsersByCondition_Count" parameterType="com.rongzhong.admin.model.user.AdUser" resultType="java.lang.Integer">
+	SELECT COUNT(DISTINCT ID) FROM AD_USER WHERE 1=1
+	<if test="loginname != null  and loginname !=''">
+		AND LOGIN_NAME = #{loginname}  
+	</if>
+	<if test="realname != null and realname !=''">
+		AND REAL_NAME =#{realname} 
+	</if>
+</select>
+<!-- 通过主键删除当前记录 -->
+<delete id="deleteUser" parameterType="com.rongzhong.admin.model.user.AdUser">
+    DELETE FROM AD_USER WHERE ID=#{id}
+</delete>
+<!-- 通过主键查询对象 -->
+<select id="findUserByPk" parameterType="com.rongzhong.admin.model.user.AdUser" resultType="com.rongzhong.admin.model.user.AdUser">
+    SELECT ID AS id,LOGIN_NAME AS loginname,REAL_NAME AS realname,PASSWORD AS PASSWORD,DEPART_ID AS departid,EMAIL AS email,CREATE_TIME AS createtime,EDIT_TIME AS edittime,STATUS AS STATUS FROM AD_USER WHERE ID=#{id}
+</select>
+<!-- 通过账号查询对象 -->
+<select id="findUserByName" parameterType="com.rongzhong.admin.model.user.AdUser" resultType="com.rongzhong.admin.model.user.AdUser">
+    SELECT ID AS id,LOGIN_NAME AS loginname,REAL_NAME AS realname,PASSWORD AS PASSWORD,DEPART_ID AS departid,EMAIL AS email,CREATE_TIME AS createtime,EDIT_TIME AS edittime,STATUS AS STATUS FROM AD_USER WHERE LOGIN_NAME=#{loginname} AND STATUS='1' 
+</select>
+<!-- 该Sql不对如下属性进行更新： id,loginname,password,createtime,lastlogintime,logincounts  -->
+<update id="editUser" parameterType="com.rongzhong.admin.model.user.AdUser">
+	UPDATE AD_USER SET REAL_NAME=#{realname},DEPART_ID=#{departid},EMAIL=#{email},STATUS =#{status},EDIT_TIME=#{edittime} WHERE ID=#{id}
+</update>
+<!-- 创建一个新用户 -->
+<insert id="createUser" parameterType="com.rongzhong.admin.model.user.AdUser">
+    INSERT INTO AD_USER (ID,LOGIN_NAME,REAL_NAME,PASSWORD,DEPART_ID,EMAIL,CREATE_TIME,EDIT_TIME,STATUS) VALUES(#{id},#{loginname},#{realname},#{password},#{departid},#{email},#{createtime},#{edittime},#{status})
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+		SELECT @@IDENTITY as ID
+	</selectKey>
+</insert>
+<!-- 修改密码 -->
+<update id="editPassword" parameterType="com.rongzhong.admin.model.user.AdUser">
+	UPDATE AD_USER SET PASSWORD =#{password} WHERE ID=#{id}
+</update>
+<!-- 更新用户活动状态 -->
+<update id="updateUser" parameterType="com.rongzhong.admin.model.user.AdUser">
+	UPDATE AD_USER SET LOGIN_TIME  =#{logintime},LOGIN_IP =#{loginip} WHERE ID=#{id}
+</update>
+<!-- 更新用户状态 -->
+<update id="lockUser" parameterType="com.rongzhong.admin.model.user.AdUser">
+	UPDATE AD_USER SET STATUS  =#{status} WHERE ID=#{id}
+</update>
+</mapper>

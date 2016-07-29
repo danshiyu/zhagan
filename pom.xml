@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>yryz</artifactId>
+		<groupId>com.rongzhong</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.rongzhong</groupId>
+	<artifactId>user</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.rongzhong</groupId>
+			<artifactId>component</artifactId>
+			<version>${component.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rongzhong</groupId>
+			<artifactId>common</artifactId>
+			<version>${common.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+			<version>${activemq.pool.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+	</dependencies>
+	<properties>
+		<component.version>1.0-SNAPSHOT</component.version>
+		<common.version>1.0-SNAPSHOT</common.version>
+		<jetty.version>6.1.26</jetty.version>
+		<activemq.pool.version>5.4.2</activemq.pool.version>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>${jetty.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+</project> 

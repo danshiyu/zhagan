@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landRole">
+<select id="findAllRoles" resultType="com.rongzhong.admin.model.user.AdRole">
+	SELECT ID AS id,NAME AS NAME,DESCN AS descn,CREATE_TIME AS createtime,EDIT_TIME AS edittime,STATUS AS STATUS FROM AD_ROLE
+</select>
+<!-- 查询所有的角色，分页 -->
+<select id="findRolesByPage" resultType="com.rongzhong.admin.model.user.AdRole">
+	SELECT ID AS id,NAME AS NAME,DESCN AS descn,CREATE_TIME AS createtime,EDIT_TIME AS edittime,STATUS AS STATUS FROM AD_ROLE WHERE 1=1
+	<if test="name != null  and name !=''">
+		AND NAME =#{name}
+	</if>
+	<if test="descn != null  and descn !=''">
+		AND DESCN=#{descn}  
+	</if>	
+</select>
+<select id="findRolesByPage_Count" resultType="java.lang.Integer">
+	SELECT count(*) FROM AD_ROLE WHERE 1=1
+	<if test="name != null  and name !=''">
+		AND NAME =#{name}
+	</if>
+	<if test="descn != null  and descn !=''">
+		AND DESCN=#{descn}  
+	</if>	
+</select>
+<!-- 通过状态查询角色 -->
+<select id="findRolesById" parameterType="com.rongzhong.admin.model.user.AdRole" resultType="com.rongzhong.admin.model.user.AdRole">
+	SELECT ID AS id,NAME AS NAME,DESCN AS descn,CREATE_TIME AS createtime,EDIT_TIME AS edittime,STATUS AS status FROM AD_ROLE WHERE ID = #{id}
+</select>
+<!-- 创建一个新角色 -->
+<insert id="createRole" parameterType="com.rongzhong.admin.model.user.AdRole">
+	INSERT INTO AD_ROLE (ID,NAME,DESCN,CREATE_TIME,EDIT_TIME,STATUS) VALUES (#{id},#{name},#{descn},#{createtime},#{edittime},#{status})
+</insert>
+<!-- 修改角色信息,主键与创建时间不进行修改 -->
+<update id="editRole" parameterType="com.rongzhong.admin.model.user.AdRole">
+	UPDATE AD_ROLE SET NAME=#{name},DESCN=#{descn},EDIT_TIME=#{edittime},STATUS=#{status} WHERE ID=#{id}
+</update>
+<!-- 通过主键,删除角色 -->
+<delete id="deleteRole" parameterType="java.lang.Integer">
+	DELETE FROM AD_ROLE WHERE ID=#{id}
+</delete>	
+</mapper>

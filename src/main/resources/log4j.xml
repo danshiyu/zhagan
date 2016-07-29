@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd hh:mm:ss}:%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="fileDemo" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/data/logs/demo/demo.log" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %m %n" />
+		</layout>
+	</appender>
+
+	<logger name="com.rongzhong" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+	<logger name="java.sql.Connection" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="java.sql.Statement" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="java.sql.PreparedStatement" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+
+	<appender name="fileWarn" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/data/logs/warn/warn.log" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %m %n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="warn" />
+		<appender-ref ref="fileWarn" />
+	</root>
+</log4j:configuration>

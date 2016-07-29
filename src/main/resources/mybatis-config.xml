@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<plugins>
+		<!-- 指定数据库分页方言Dialect -->
+		<plugin interceptor="com.rongzhong.component.ibatis.MysqlPagePluging">
+			<property name="dialectClass" value="com.rongzhong.component.ibatis.MySQLDialect" />
+		</plugin>
+	</plugins>
+	<mappers>
+		<!-- 系统管理 -->
+		<mapper resource="mapper/user/AdUserMapper.xml" />
+		<mapper resource="mapper/user/AdRoleAuthMapper.xml" />
+		<mapper resource="mapper/user/AdRoleMapper.xml" />
+		<mapper resource="mapper/user/AdUserRoleMapper.xml" />
+		<mapper resource="mapper/user/AdMenuMapper.xml" />
+		<!-- <mapper resource="mapper/LoginMapper.xml" />
+		
+		<mapper resource="mapper/PangoSmssendLogMapper.xml" /> -->
+		<!-- 自动任务 
+		<mapper resource="mapper/autotask/AutotaskMapper.xml" />-->
+	</mappers>
+</configuration>

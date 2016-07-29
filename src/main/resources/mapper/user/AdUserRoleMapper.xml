@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landUserRole">
+<!-- 通过角色Id查询用户角色关联表中，是否有记录 -->
+<select id="findUserRoles" resultType="com.rongzhong.admin.model.user.AdUserRole">
+  	SELECT ID AS id,USER_ID AS userId,ROLE_ID AS roleId FROM AD_USER_ROLE
+</select>
+
+<select id="selectByUserId" parameterType="java.lang.Integer" resultType="com.rongzhong.admin.model.user.AdUserRole">
+  	SELECT ID AS id,USER_ID AS userId,ROLE_ID AS roleId FROM AD_USER_ROLE where USER_ID = #{userId,jdbcType=INTEGER}
+</select>
+
+<select id="selectByUserAndRole" parameterType="java.lang.Integer" resultType="com.rongzhong.admin.model.user.AdUserRole">
+  	SELECT ID AS id,USER_ID AS userId,ROLE_ID AS roleId FROM AD_USER_ROLE 
+  	where USER_ID = #{userId,jdbcType=VARCHAR} and ROLE_ID = 1
+</select>
+
+<delete id="deleteId" parameterType="java.lang.Integer">
+	DELETE FROM AD_USER_ROLE WHERE ID=#{id}
+</delete>
+<!-- 通过角色ID删除与之关系的记录 -->	
+<delete id="deleteByRoleId" parameterType="java.lang.Integer">
+	DELETE FROM AD_USER_ROLE WHERE ROLE_ID=#{roleId}
+</delete>
+<delete id="deleteRoleIn" parameterType="java.util.List">
+	DELETE FROM AD_USER_ROLE WHERE ROLE_ID IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	#{item}
+    </foreach>
+</delete>
+
+<delete id="deleteByIdIn" parameterType="java.util.List">
+	DELETE FROM AD_USER_ROLE WHERE ID IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	#{item.id}
+    </foreach>
+</delete>
+
+<!-- 通过用户ID删除与之关系的记录 -->	
+<delete id="deleteByUserId" parameterType="java.lang.Integer">
+	DELETE FROM AD_USER_ROLE WHERE USER_ID=#{userId}
+</delete>
+<!-- 添加新纪录 -->
+<insert id="createUserRole" parameterType="com.rongzhong.admin.model.user.AdUserRole">
+	INSERT INTO AD_USER_ROLE (ID,USER_ID,ROLE_ID) VALUES (#{id},#{userId},#{roleId})
+</insert>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landMenu">
+	<select id="getAllMenu" resultType="com.rongzhong.admin.model.user.AdMenu">
+		SELECT ID as id,CODE as code,NAME as name,STRLINKS as strlinks,PARENT_ID as parentid,PRIORTY as priorty,LEVEL as level,TYPE as type,DESCN as descn,STATUS as status,CREATE_TIME as createtime,EDIT_TIME as edittime FROM AD_MENU WHERE STATUS='1' order by ID asc
+	</select>
+	<select id="getAllMenu_Count" resultType="java.lang.Integer">
+		SELECT count(*) FROM AD_MENU WHERE STATUS='1'
+	</select>
+	<select id="getMenu" parameterType="com.rongzhong.admin.model.user.AdMenu" resultType="com.rongzhong.admin.model.user.AdMenu">
+		SELECT ID as id,CODE as code,NAME as name,STRLINKS as strlinks,PARENT_ID as parentid,PRIORTY as priorty,LEVEL as level,TYPE as type,DESCN as descn,STATUS as status,CREATE_TIME as createtime,EDIT_TIME as edittime FROM AD_MENU WHERE 1=1
+		<if test="name != null  and name !=''">
+			AND NAME  like "%"#{name}"%"
+		</if>
+		<if test="code != null  and code !=''">
+			AND CODE=#{code}  
+		</if>		
+	</select>
+	<select id="getMenu_Count" parameterType="com.rongzhong.admin.model.user.AdMenu" resultType="java.lang.Integer">
+		SELECT count(*) FROM AD_MENU WHERE 1=1
+		<if test="name != null  and name !=''">
+			AND NAME  like "%"#{name}"%"
+		</if>
+		<if test="code != null  and code !=''">
+			AND CODE=#{code}  
+		</if>
+	</select>
+	<select id="getMenuByParentId" resultType="com.rongzhong.admin.model.user.AdMenu" parameterType="java.lang.Integer">
+		SELECT ID AS id,CODE AS CODE,NAME AS NAME,STRLINKS AS strlinks,PARENT_ID AS parentid,PRIORTY AS priorty,LEVEL AS level,TYPE AS type,DESCN AS descn,STATUS AS status,CREATE_TIME AS createtime,EDIT_TIME AS edittime FROM AD_MENU WHERE PARENT_ID=#{parentid} ORDER BY PRIORTY
+	</select>
+	<select id="getMenuByParentId_Count" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT count(*) FROM AD_MENU WHERE PARENT_ID=#{parentid}
+	</select>
+	<delete id="deleteMenu" parameterType="java.lang.Integer">
+		DELETE FROM AD_MENU WHERE ID=#{id}
+	</delete>
+	<select id="getMenuByPk" resultType="com.rongzhong.admin.model.user.AdMenu">
+		SELECT ID as id,CODE as code,NAME as name,STRLINKS as strlinks,PARENT_ID as parentid,PRIORTY as priorty,LEVEL as level,TYPE as type,DESCN as descn,STATUS as status,CREATE_TIME as createtime,EDIT_TIME as edittime FROM AD_MENU WHERE ID=#{id}
+	</select>
+	<insert id="createMenu" parameterType="com.rongzhong.admin.model.user.AdMenu">
+		INSERT INTO AD_MENU
+		(ID,CODE,NAME,STRLINKS,PARENT_ID,PRIORTY,LEVEL,TYPE,DESCN,STATUS,CREATE_TIME,
+		EDIT_TIME) VALUES
+		(#{id},#{code},#{name},#{strlinks},#{parentid},#{priorty},
+		#{level},#{type},#{descn},#{status},#{createtime},#{edittime})
+	</insert>
+	<update id="updateMenu" parameterType="com.rongzhong.admin.model.user.AdMenu">
+	    UPDATE AD_MENU SET CODE=#{code},NAME=#{name},STRLINKS=#{strlinks},PARENT_ID=#{parentid},PRIORTY=#{priorty},LEVEL=#{level},TYPE=#{type},DESCN=#{descn},EDIT_TIME=#{edittime},STATUS=#{status} WHERE ID=#{id}
+    </update>
+    <update id="updateParent" parameterType="com.rongzhong.admin.model.user.AdMenu">
+	    UPDATE AD_MENU SET PARENT_ID=#{parentid} WHERE ID=#{id}
+    </update>
+</mapper>
